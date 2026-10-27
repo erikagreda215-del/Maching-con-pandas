@@ -29,4 +29,19 @@ def preparar_datos():
     alumnos = leer_csv("alumnos.csv" , ["id_alumno" , "nombre"])
     notas = leer_csv("notas.csv" , ["id_alumno"] + NOTAS)
 
-    alumnos = alumnos 
+    alumnos = alumnos.drop_duplicates()
+    if notas["id_alumno"].duplicated().any():
+        raise ValueError("Revias el archivo notas.csv hay alumnos duplicados")
+    
+    for columna in NOTAS:
+        notas[columna]= pd.to_numeric(notas[columna], errors="coerce")
+    fuera_rango = (notas[columna] < 0) | (notas[columna] > 10)
+    notas.loc[fuera_rango, columna] = None
+
+    sin_notas = sorted(set(alumnos["id_alumno"]) - set(notas["id_alumno"]))
+
+    print("Alumnos sin notas:", ", ".join(sin_notas) or "ninguno")
+    sin_alumno = sorted(set(notas["id_alumno"]) - set(alumnos["id_alumno"]))
+    print("Notas sin alumno:", ", ".join(sin_alumno) or "ninguno")
+
+    
