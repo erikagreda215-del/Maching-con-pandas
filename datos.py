@@ -31,6 +31,7 @@ def leer_csv(nombre: str, columnas: list[str]) -> pd.DataFrame:
 
     return tabla
 
+
 def preparar_datos() -> pd.DataFrame:
     """Lee, limpia, cruza y calcula. Devuelve el informe."""
     alumnos = leer_csv("alumnos.csv", ["id_alumno", "nombre"])
@@ -53,7 +54,8 @@ def preparar_datos() -> pd.DataFrame:
     print("Alumnos sin notas:", ", ".join(sin_notas) or "ninguno")
     sin_alumno = sorted(set(notas["id_alumno"]) - set(alumnos["id_alumno"]))
     print("Notas sin alumno:", ", ".join(sin_alumno) or "ninguno")
-        # Cruzar: how="left" conserva todos los alumnos
+
+    # Cruzar: how="left" conserva todos los alumnos
     informe = alumnos.merge(notas, on="id_alumno", how="left")
 
     if len(sin_notas) == len(alumnos):
@@ -67,6 +69,40 @@ def preparar_datos() -> pd.DataFrame:
     informe = informe.sort_values("id_alumno").reset_index(drop=True)
 
     return informe[COLUMNAS_INFORME]
+
+
+def guardar_informes(informe: pd.DataFrame) -> None:
+    """Guarda el informe en CSV y JSON y comprueba que se ha guardado bien."""
+    SALIDA.mkdir(parents=True, exist_ok=True)
+    ruta_csv = SALIDA / "informe_notas.csv"
+    ruta_json = SALIDA / "informe_notas.json"
+
+    informe.to_csv(ruta_csv, index=False, sep=";")
+    informe.to_json(ruta_json, orient="records", force_ascii=False, indent=2)
+
+    leido_csv = pd.read_csv(ruta_csv, sep=";", dtype={"id_alumno": str})
+    leido_json = pd.read_json(ruta_json, orient="records", dtype={"id_alumno": str})
+
+    for tipo, leido in [("CSV", leido_csv), ("JSON", leido_json)]:
+        if len(leido) != len(informe):
+            raise ValueError(f"El {tipo} no tiene las mismas filas.")
+        if list(leido.columns) != list(informe.columns):
+            raise ValueError(f"El {tipo} no tiene las mismas columnas.")
+        if list(leido["id_alumno"]) != list(informe["id_alumno"]):
+            raise ValueError(f"El {tipo} no tiene los mismos id_alumno.")
+
+    print("CSV y JSON guardados y comprobados en datos/salida.")
+
+
+def mostrar_informe(informe: pd.DataFrame) -> None:
+    """Muestra el informe en la consola con N/D en los datos ausentes."""
+    print()
+    print(informe.to_string(index=False, na_rep="N/D"))
+    completos = informe["total"].notna().sum()
+    print(f"\nAlumnos: {len(informe)} | Completos: {completos} | "
+          f"Pendientes: {len(informe) - completos}")
+
+
 def mostrar_grafico(informe: pd.DataFrame) -> None:
     """Calcula la media de cada actividad, guarda el gráfico y lo muestra."""
     completos = informe[informe[NOTAS].notna().all(axis=1)]

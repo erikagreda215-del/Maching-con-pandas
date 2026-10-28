@@ -1,0 +1,110 @@
+[
+  {
+    "id_alumno":"001",
+    "nombre":"Alba Costa",
+    "nota1":7.0,
+    "nota2":8.0,
+    "nota3":9.0,
+    "total":24.0,
+    "media":8.0
+  },
+  {
+    "id_alumno":"002",
+    "nombre":"Bruno Pérez",
+    "nota1":6.0,
+    "nota2":null,
+    "nota3":7.0,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"003",
+    "nombre":"Carla Vidal",
+    "nota1":9.0,
+    "nota2":9.0,
+    "nota3":10.0,
+    "total":28.0,
+    "media":9.33
+  },
+  {
+    "id_alumno":"004",
+    "nombre":"Diego Roca",
+    "nota1":6.0,
+    "nota2":null,
+    "nota3":7.0,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"005",
+    "nombre":"Elena Martín",
+    "nota1":5.0,
+    "nota2":null,
+    "nota3":8.0,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"006",
+    "nombre":"Fernando Gil",
+    "nota1":null,
+    "nota2":6.0,
+    "nota3":5.0,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"007",
+    "nombre":"Gemma Soler",
+    "nota1":4.0,
+    "nota2":6.0,
+    "nota3":null,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"008",
+    "nombre":"Hugo Navarro",
+    "nota1":null,
+    "nota2":8.0,
+    "nota3":9.0,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"009",
+    "nombre":"Irene Castro",
+    "nota1":7.0,
+    "nota2":null,
+    "nota3":9.0,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"010",
+    "nombre":"Jorge Ruiz",
+    "nota1":null,
+    "nota2":null,
+    "nota3":null,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"011",
+    "nombre":"Laia López",
+    "nota1":null,
+    "nota2":null,
+    "nota3":null,
+    "total":null,
+    "media":null
+  },
+  {
+    "id_alumno":"012",
+    "nombre":"Marc Rubio",
+    "nota1":8.0,
+    "nota2":7.0,
+    "nota3":null,
+    "total":null,
+    "media":null
+  }
+]

@@ -1,0 +1,13 @@
+id_alumno;nombre;nota1;nota2;nota3;total;media
+001;Alba Costa;7.0;8.0;9.0;24.0;8.0
+002;Bruno Pérez;6.0;;7.0;;
+003;Carla Vidal;9.0;9.0;10.0;28.0;9.33
+004;Diego Roca;6.0;;7.0;;
+005;Elena Martín;5.0;;8.0;;
+006;Fernando Gil;;6.0;5.0;;
+007;Gemma Soler;4.0;6.0;;;
+008;Hugo Navarro;;8.0;9.0;;
+009;Irene Castro;7.0;;9.0;;
+010;Jorge Ruiz;;;;;
+011;Laia López;;;;;
+012;Marc Rubio;8.0;7.0;;;
