@@ -53,3 +53,37 @@ def preparar_datos() -> pd.DataFrame:
     print("Alumnos sin notas:", ", ".join(sin_notas) or "ninguno")
     sin_alumno = sorted(set(notas["id_alumno"]) - set(alumnos["id_alumno"]))
     print("Notas sin alumno:", ", ".join(sin_alumno) or "ninguno")
+        # Cruzar: how="left" conserva todos los alumnos
+    informe = alumnos.merge(notas, on="id_alumno", how="left")
+
+    if len(sin_notas) == len(alumnos):
+        raise ValueError("El cruce no tiene coincidencias.")
+    if informe[NOTAS].notna().sum().sum() == 0:
+        raise ValueError("El informe no tiene ninguna nota válida.")
+
+    # Calcular
+    informe["total"] = informe[NOTAS].sum(axis=1, min_count=3)
+    informe["media"] = (informe["total"] / 3).round(2)
+    informe = informe.sort_values("id_alumno").reset_index(drop=True)
+
+    return informe[COLUMNAS_INFORME]
+def mostrar_grafico(informe: pd.DataFrame) -> None:
+    """Calcula la media de cada actividad, guarda el gráfico y lo muestra."""
+    completos = informe[informe[NOTAS].notna().all(axis=1)]
+    if completos.empty:
+        raise ValueError("No hay alumnos con las tres notas válidas para crear el gráfico.")
+
+    medias = completos[NOTAS].mean()
+    medias.index = ["Actividad 1", "Actividad 2", "Actividad 3"]
+
+    ax = medias.plot.bar(rot=0)
+    ax.set_ylim(0, 10)
+    ax.set_ylabel("Nota media")
+    ax.set_title(f"Media por actividad ({len(completos)} alumnos)")
+    plt.tight_layout()
+
+    SALIDA.mkdir(parents=True, exist_ok=True)
+    plt.savefig(SALIDA / "medias_actividades.png")
+    print("Gráfico guardado en datos/salida/medias_actividades.png")
+    plt.show()
+    plt.close()
